@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<head>
+    <style>
+        body, html{
+            height:100%;
+        }
+        #map {
+            height: 500px;
+        }
+    </style>
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAX1jmcW1cZiqkj3sK8ICOzqkTCl7lp7yg&callback=initialise" type="text/javascript"></script>
+    <script>
+        let markers = [];
+        function pinSymbol() {
+            return {
+                path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z M -2,-30 a 2,2 0 1,1 4,0 2,2 0 1,1 -4,0',
+                fillColor: "#ff0",
+                fillOpacity: 1,
+                strokeColor: '#ffcc00',
+                strokeWeight: 1,
+                scale: 1,
+            };
+        }
+
+        function initialise() {
+            const mapElement = document.getElementById("map");
+            let map = new google.maps.Map(mapElement, {
+                center: {lat: 53.3474000259898, lng: -6.259202954653347},
+                zoom: 3
+            });
+            // data to use to create markers
+            const data = [{
+                lat: 0,
+                lng: 0,
+                name: "a marker",
+                title: "marker",
+                number: 1,
+                icon: pinSymbol()
+            }];
+            for (let i = 0; i < data.length; i++){
+                // creates a new marker
+                // and puts it on the map
+                const marker = new google.maps.Marker({
+                    position: {
+                        "lat": data[i].lat,
+                        "lng": data[i].lng
+                    },
+                    map: map,
+                    title: data[i].name,
+                    number: data[i].number,
+                    // function to create the icon
+                    icon: pinSymbol(),
+                });
+
+
+                // when we click on the marker we want to go to a specific URL (href)
+                marker.addListener("click", function(){
+                    window.location.href = data[i].title.toLowerCase() + ".html";
+                });
+
+                // add the marker to the list of markers
+                // markers.push(marker)
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="map">
+
+    </div>
+</body>
